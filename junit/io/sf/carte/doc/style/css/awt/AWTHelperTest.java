@@ -29,7 +29,6 @@ import io.sf.carte.doc.dom.TestDOMImplementation;
 import io.sf.carte.doc.style.css.CSSComputedProperties;
 import io.sf.carte.doc.style.css.CSSElement;
 import io.sf.carte.doc.style.css.CSSMediaException;
-import io.sf.carte.doc.style.css.awt.AWTHelper;
 import io.sf.carte.doc.style.css.om.BaseCSSStyleDeclaration;
 import io.sf.carte.doc.style.css.property.CSSPropertyValueException;
 
