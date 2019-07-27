@@ -42,7 +42,7 @@ public class AWTHelper {
 	 */
 	public static Font createFont(CSSComputedProperties computedStyle) {
 		String fontfamily = computedStyle.getUsedFontFamily();
-		int sz = computedStyle.getComputedFontSize();
+		float sz = computedStyle.getComputedFontSize();
 		// Font style
 		String stylename = computedStyle.getPropertyValue("font-style");
 		int style = Font.PLAIN;
@@ -74,7 +74,7 @@ public class AWTHelper {
 			}
 		}
 		//
-		Font font = new Font(fontfamily, style, sz);
+		Font font = new Font(fontfamily, style, Math.round(sz));
 		return font.deriveFont(textAttrs);
 	}
 
