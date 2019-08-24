@@ -80,7 +80,7 @@ public class AWTHelperTest {
 		assertNotNull(styledecl);
 		Font font = AWTHelper.createFont(styledecl);
 		assertNotNull(font);
-		assertNotNull(font.getFamily(Locale.US));
+		assertNotNull(font.getFamily(Locale.ROOT));
 		assertEquals("Helvetica", font.getName());
 		assertEquals(12, font.getSize());
 		xhtmlDoc.setTargetMedium("screen");
@@ -88,7 +88,7 @@ public class AWTHelperTest {
 		assertNotNull(styledecl);
 		font = AWTHelper.createFont(styledecl);
 		assertNotNull(font);
-		assertNotNull(font.getFamily(Locale.US));
+		assertNotNull(font.getFamily(Locale.ROOT));
 		assertEquals("Helvetica", font.getName());
 		assertEquals(20, font.getSize());
 	}
