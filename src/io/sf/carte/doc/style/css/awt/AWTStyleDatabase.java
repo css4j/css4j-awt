@@ -119,7 +119,7 @@ public class AWTStyleDatabase extends AbstractStyleDatabase {
 	}
 
 	@Override
-	public int getFontSizeFromIdentifier(String familyName, String fontSizeIdentifier) throws DOMException {
+	public float getFontSizeFromIdentifier(String familyName, String fontSizeIdentifier) throws DOMException {
 		// Normalize to device resolution
 		float factor = Math.max(0.9f, deviceResolutionFactor());
 		float sz;
@@ -140,7 +140,7 @@ public class AWTStyleDatabase extends AbstractStyleDatabase {
 		} else {
 			throw new DOMException(DOMException.INVALID_ACCESS_ERR, "Unknown size identifier: " + fontSizeIdentifier);
 		}
-		return Math.round(sz);
+		return sz;
 	}
 
 	@Override
@@ -195,11 +195,6 @@ public class AWTStyleDatabase extends AbstractStyleDatabase {
 
 	@Override
 	public int getColorDepth() {
-		return getPixelDepth();
-	}
-
-	@Override
-	public int getPixelDepth() {
 		int bpc = 255;
 		if (gConfiguration != null) {
 			int[] comp = gConfiguration.getColorModel().getComponentSize();
