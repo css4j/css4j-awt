@@ -23,8 +23,8 @@ import java.util.Map;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
-import io.sf.carte.doc.style.css.AbstractStyleDatabase;
 import io.sf.carte.doc.style.css.ExtendedCSSFontFaceRule;
+import io.sf.carte.doc.style.css.om.AbstractStyleDatabase;
 
 /**
  * CSS style database for use with AWT objects.
