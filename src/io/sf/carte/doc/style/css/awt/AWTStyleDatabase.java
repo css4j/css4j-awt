@@ -11,13 +11,20 @@
 
 package io.sf.carte.doc.style.css.awt;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
 import io.sf.carte.doc.style.css.AbstractStyleDatabase;
+import io.sf.carte.doc.style.css.ExtendedCSSFontFaceRule;
 
 /**
  * CSS style database for use with AWT objects.
@@ -35,6 +42,8 @@ public class AWTStyleDatabase extends AbstractStyleDatabase {
 	 */
 	private float defaultWidth = 595f;
 	private float defaultHeight = 842f;
+
+	private final Map<String,Font> fontfaceNames = new HashMap<String,Font>();
 
 	/**
 	 * Constructs a default style database with no graphics configuration.
@@ -92,6 +101,53 @@ public class AWTStyleDatabase extends AbstractStyleDatabase {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public boolean isFontFaceName(String requestedFamily) {
+		return fontfaceNames.containsKey(requestedFamily);
+	}
+
+	@Override
+	protected boolean loadFontFace(String familyName, FontFormat format, InputStream is, ExtendedCSSFontFaceRule rule)
+			throws IOException {
+		int fontFormat;
+		if (format == null || (fontFormat = fontFormatFromEnum(format)) == -1) {
+			return false;
+		}
+		Font font;
+		try {
+			font = Font.createFont(fontFormat, is);
+		} catch (FontFormatException e) {
+			rule.getParentStyleSheet().getErrorHandler().fontFormatError(rule, e);
+			return false;
+		}
+		fontfaceNames.put(familyName, font);
+		return true;
+	}
+
+	private int fontFormatFromEnum(FontFormat format) {
+		int fontFormat;
+		switch (format) {
+		case TRUETYPE:
+		case OPENTYPE:
+			fontFormat = Font.TRUETYPE_FONT;
+			break;
+		default:
+			fontFormat = -1;
+		}
+		return fontFormat;
+	}
+
+	/**
+	 * Get a font that was loaded by a {@literal @}font-face rule.
+	 * 
+	 * @param lcFamilyName the family name in lowercase.
+	 * @return the font, or <code>null</code> if no font with that family name (in
+	 *         lowercase) has been loaded from a {@literal @}font-face rule.
+	 */
+	public Font getFont(String lcFamilyName) {
+		return fontfaceNames.get(lcFamilyName);
 	}
 
 	/**
