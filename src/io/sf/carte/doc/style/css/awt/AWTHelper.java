@@ -18,9 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.w3c.dom.css.CSSPrimitiveValue;
-import org.w3c.dom.css.RGBColor;
 
 import io.sf.carte.doc.style.css.CSSComputedProperties;
+import io.sf.carte.doc.style.css.CSSPrimitiveValue2;
 import io.sf.carte.doc.style.css.RGBAColor;
 import io.sf.carte.doc.style.css.property.CSSPropertyValueException;
 import io.sf.carte.doc.style.css.property.ColorIdentifiers;
@@ -89,19 +89,16 @@ public class AWTHelper {
 	 * @throws CSSPropertyValueException
 	 *             if the color declaration is malformed or a color identifier is unknown.
 	 */
-	public static Color getAWTColor(CSSPrimitiveValue cssColor) throws CSSPropertyValueException {
+	public static Color getAWTColor(CSSPrimitiveValue2 cssColor) throws CSSPropertyValueException {
 		Color awtcolor = null;
 		if (cssColor != null) {
 			switch (cssColor.getPrimitiveType()) {
 			case CSSPrimitiveValue.CSS_RGBCOLOR:
-				RGBColor color = cssColor.getRGBColorValue();
+				RGBAColor color = cssColor.getRGBColorValue();
 				CSSPrimitiveValue red = color.getRed();
 				CSSPrimitiveValue green = color.getGreen();
 				CSSPrimitiveValue blue = color.getBlue();
-				float alpha = 1.0f;
-				if (color instanceof RGBAColor) {
-					alpha = ((RGBAColor) color).getAlpha().getFloatValue(CSSPrimitiveValue.CSS_NUMBER);
-				}
+				float alpha = color.getAlpha().getFloatValue(CSSPrimitiveValue.CSS_NUMBER);
 				switch (red.getPrimitiveType()) {
 				case CSSPrimitiveValue.CSS_PERCENTAGE:
 					awtcolor = new Color(clipColorValue(red.getFloatValue(CSSPrimitiveValue.CSS_PERCENTAGE) / 100f),
