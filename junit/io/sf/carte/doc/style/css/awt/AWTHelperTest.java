@@ -20,16 +20,16 @@ import java.io.IOException;
 import java.util.Locale;
 
 import org.junit.Test;
-import org.w3c.dom.css.CSSPrimitiveValue;
-import org.w3c.dom.css.CSSStyleDeclaration;
-import org.w3c.dom.css.CSSValue;
 
 import io.sf.carte.doc.dom.HTMLDocument;
 import io.sf.carte.doc.dom.TestDOMImplementation;
 import io.sf.carte.doc.style.css.CSSComputedProperties;
 import io.sf.carte.doc.style.css.CSSElement;
 import io.sf.carte.doc.style.css.CSSMediaException;
-import io.sf.carte.doc.style.css.CSSPrimitiveValue2;
+import io.sf.carte.doc.style.css.CSSTypedValue;
+import io.sf.carte.doc.style.css.CSSValue;
+import io.sf.carte.doc.style.css.CSSValue.CssType;
+import io.sf.carte.doc.style.css.ExtendedCSSStyleDeclaration;
 import io.sf.carte.doc.style.css.om.BaseCSSStyleDeclaration;
 import io.sf.carte.doc.style.css.property.CSSPropertyValueException;
 
@@ -37,13 +37,13 @@ public class AWTHelperTest {
 
 	@Test
 	public void testGetAWTColor() throws CSSPropertyValueException {
-		CSSStyleDeclaration style = new BaseCSSStyleDeclaration();
+		ExtendedCSSStyleDeclaration style = new BaseCSSStyleDeclaration();
 		style.setCssText("color: rgba(8,63,255,0.5); ");
 		CSSValue cssColor = style.getPropertyCSSValue("color");
 		assertNotNull(cssColor);
-		assertEquals(CSSValue.CSS_PRIMITIVE_VALUE, cssColor.getCssValueType());
-		assertEquals(CSSPrimitiveValue.CSS_RGBCOLOR, ((CSSPrimitiveValue) cssColor).getPrimitiveType());
-		Color color = AWTHelper.getAWTColor((CSSPrimitiveValue2) cssColor);
+		assertEquals(CssType.TYPED, cssColor.getCssValueType());
+		assertEquals(CSSValue.Type.RGBCOLOR, ((CSSTypedValue) cssColor).getPrimitiveType());
+		Color color = AWTHelper.getAWTColor((CSSTypedValue) cssColor);
 		assertNotNull(color);
 		assertEquals(8, color.getRed());
 		assertEquals(63, color.getGreen());
@@ -53,9 +53,9 @@ public class AWTHelperTest {
 		style.setCssText("color: #f00; ");
 		cssColor = style.getPropertyCSSValue("color");
 		assertNotNull(cssColor);
-		assertEquals(CSSValue.CSS_PRIMITIVE_VALUE, cssColor.getCssValueType());
-		assertEquals(CSSPrimitiveValue.CSS_RGBCOLOR, ((CSSPrimitiveValue) cssColor).getPrimitiveType());
-		color = AWTHelper.getAWTColor((CSSPrimitiveValue2) cssColor);
+		assertEquals(CssType.TYPED, cssColor.getCssValueType());
+		assertEquals(CSSValue.Type.RGBCOLOR, ((CSSTypedValue) cssColor).getPrimitiveType());
+		color = AWTHelper.getAWTColor((CSSTypedValue) cssColor);
 		assertNotNull(color);
 		assertEquals(255, color.getRed());
 		assertEquals(0, color.getGreen());
@@ -65,9 +65,9 @@ public class AWTHelperTest {
 		style.setCssText("color: transparent; ");
 		cssColor = style.getPropertyCSSValue("color");
 		assertNotNull(cssColor);
-		assertEquals(CSSValue.CSS_PRIMITIVE_VALUE, cssColor.getCssValueType());
-		assertEquals(CSSPrimitiveValue.CSS_IDENT, ((CSSPrimitiveValue) cssColor).getPrimitiveType());
-		color = AWTHelper.getAWTColor((CSSPrimitiveValue2) cssColor);
+		assertEquals(CssType.TYPED, cssColor.getCssValueType());
+		assertEquals(CSSValue.Type.IDENT, ((CSSTypedValue) cssColor).getPrimitiveType());
+		color = AWTHelper.getAWTColor((CSSTypedValue) cssColor);
 		assertNotNull(color);
 		assertEquals(0, color.getAlpha());
 	}

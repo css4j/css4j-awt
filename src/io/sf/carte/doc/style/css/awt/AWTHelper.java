@@ -17,10 +17,11 @@ import java.awt.font.TextAttribute;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.w3c.dom.css.CSSPrimitiveValue;
-
 import io.sf.carte.doc.style.css.CSSComputedProperties;
-import io.sf.carte.doc.style.css.CSSPrimitiveValue2;
+import io.sf.carte.doc.style.css.CSSPrimitiveValue;
+import io.sf.carte.doc.style.css.CSSTypedValue;
+import io.sf.carte.doc.style.css.CSSUnit;
+import io.sf.carte.doc.style.css.CSSValue.CssType;
 import io.sf.carte.doc.style.css.RGBAColor;
 import io.sf.carte.doc.style.css.property.CSSPropertyValueException;
 import io.sf.carte.doc.style.css.property.ColorIdentifiers;
@@ -81,44 +82,51 @@ public class AWTHelper {
 	/**
 	 * Gets the AWT color as obtained from the given CSS primitive value.
 	 * 
-	 * @param cssColor
-	 *            the primitive color value, which can contain an RGB color, a number or an
-	 *            identifier.
-	 * @return the AWT color object, or null if the color was specified as an unknown
-	 *         identifier.
-	 * @throws CSSPropertyValueException
-	 *             if the color declaration is malformed or a color identifier is unknown.
+	 * @param cssColor the primitive color value, which can contain an RGB color, a
+	 *                 number or an identifier.
+	 * @return the AWT color object, or null if the color was specified as an
+	 *         unknown identifier.
+	 * @throws CSSPropertyValueException if the color declaration is malformed or a
+	 *                                   color identifier is unknown.
 	 */
-	public static Color getAWTColor(CSSPrimitiveValue2 cssColor) throws CSSPropertyValueException {
+	public static Color getAWTColor(CSSTypedValue cssColor) throws CSSPropertyValueException {
 		Color awtcolor = null;
 		if (cssColor != null) {
 			switch (cssColor.getPrimitiveType()) {
-			case CSSPrimitiveValue.CSS_RGBCOLOR:
+			case RGBCOLOR:
 				RGBAColor color = cssColor.getRGBColorValue();
 				CSSPrimitiveValue red = color.getRed();
 				CSSPrimitiveValue green = color.getGreen();
 				CSSPrimitiveValue blue = color.getBlue();
-				float alpha = color.getAlpha().getFloatValue(CSSPrimitiveValue.CSS_NUMBER);
-				switch (red.getPrimitiveType()) {
-				case CSSPrimitiveValue.CSS_PERCENTAGE:
-					awtcolor = new Color(clipColorValue(red.getFloatValue(CSSPrimitiveValue.CSS_PERCENTAGE) / 100f),
-							clipColorValue(green.getFloatValue(CSSPrimitiveValue.CSS_PERCENTAGE) / 100f),
-							clipColorValue(blue.getFloatValue(CSSPrimitiveValue.CSS_PERCENTAGE) / 100f), alpha);
+				CSSPrimitiveValue prialpha = color.getAlpha();
+				//
+				if (red.getCssValueType() != CssType.TYPED || green.getCssValueType() != CssType.TYPED
+						|| blue.getCssValueType() != CssType.TYPED || prialpha.getCssValueType() != CssType.TYPED) {
+					CSSPropertyValueException ex = new CSSPropertyValueException("Unknown color.");
+					ex.setValueText(cssColor.getCssText());
+					throw ex;
+				}
+				float alpha = ((CSSTypedValue) prialpha).getFloatValue(CSSUnit.CSS_NUMBER);
+				switch (red.getUnitType()) {
+				case CSSUnit.CSS_PERCENTAGE:
+					awtcolor = new Color(clipColorValue(((CSSTypedValue) red).getFloatValue(CSSUnit.CSS_PERCENTAGE) / 100f),
+							clipColorValue(((CSSTypedValue) green).getFloatValue(CSSUnit.CSS_PERCENTAGE) / 100f),
+							clipColorValue(((CSSTypedValue) blue).getFloatValue(CSSUnit.CSS_PERCENTAGE) / 100f), alpha);
 					break;
-				case CSSPrimitiveValue.CSS_NUMBER:
+				case CSSUnit.CSS_NUMBER:
 					try {
-						awtcolor = new Color(clipColorValue((int) red.getFloatValue(CSSPrimitiveValue.CSS_NUMBER)),
-								clipColorValue((int) green.getFloatValue(CSSPrimitiveValue.CSS_NUMBER)),
-								clipColorValue((int) blue.getFloatValue(CSSPrimitiveValue.CSS_NUMBER)),
+						awtcolor = new Color(clipColorValue((int) ((CSSTypedValue) red).getFloatValue(CSSUnit.CSS_NUMBER)),
+								clipColorValue((int) ((CSSTypedValue) green).getFloatValue(CSSUnit.CSS_NUMBER)),
+								clipColorValue((int) ((CSSTypedValue) blue).getFloatValue(CSSUnit.CSS_NUMBER)),
 								Math.round(alpha * 255f));
 					} catch (IllegalArgumentException e) {
-						CSSPropertyValueException ex = new CSSPropertyValueException("Unknown color", e);
+						CSSPropertyValueException ex = new CSSPropertyValueException("Unknown color.", e);
 						ex.setValueText(cssColor.getCssText());
 						throw ex;
 					}
 				}
 				break;
-			case CSSPrimitiveValue.CSS_IDENT:
+			case IDENT:
 				String sv = cssColor.getStringValue();
 				String s = ColorIdentifiers.getInstance().getColor(sv);
 				if (s != null) {
@@ -135,25 +143,14 @@ public class AWTHelper {
 					return Color.getColor(sv);
 				}
 				break;
-			case CSSPrimitiveValue.CSS_STRING:
-				String encoded = cssColor.getStringValue();
-				if (encoded.charAt(0) == '#') {
-					try {
-						awtcolor = Color.decode(encoded);
-					} catch (NumberFormatException e) {
-						CSSPropertyValueException ex = new CSSPropertyValueException("Unknown color", e);
-						ex.setValueText(encoded);
-						throw ex;
-					}
-				} else {
-					CSSPropertyValueException ex = new CSSPropertyValueException("Unknown color");
-					ex.setValueText(encoded);
-					throw ex;
+			case NUMERIC:
+				if (cssColor.getUnitType() == CSSUnit.CSS_NUMBER) {
+					return new Color((int) cssColor.getFloatValue(CSSUnit.CSS_NUMBER));
 				}
-				break;
-			case CSSPrimitiveValue.CSS_NUMBER:
-				awtcolor = new Color((int) cssColor.getFloatValue(CSSPrimitiveValue.CSS_NUMBER));
-				break;
+			default:
+				CSSPropertyValueException ex = new CSSPropertyValueException("Unknown color");
+				ex.setValueText(cssColor.getCssText());
+				throw ex;
 			}
 		}
 		return awtcolor;

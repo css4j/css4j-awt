@@ -28,13 +28,13 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import io.sf.carte.doc.agent.HeadlessDeviceFactory;
 import io.sf.carte.doc.style.css.CSSDocument;
 import io.sf.carte.doc.style.css.CSSElement;
 import io.sf.carte.doc.style.css.CSSMediaException;
-import io.sf.carte.doc.style.css.om.AbstractCSSStyleSheet;
+import io.sf.carte.doc.style.css.ExtendedCSSStyleSheet;
+import io.sf.carte.doc.style.css.LinkStyle;
 import io.sf.carte.doc.style.css.om.FontFaceRule;
 import io.sf.carte.doc.style.css.om.TestCSSStyleSheetFactory;
 
@@ -42,7 +42,7 @@ public class AWTStyleDatabaseTest {
 
 	private CSSDocument cssdoc;
 	private Node styleText;
-	private AbstractCSSStyleSheet sheet;
+	private ExtendedCSSStyleSheet<?> sheet;
 	private AWTStyleDatabase styleDb;
 
 	@Before
@@ -70,7 +70,7 @@ public class AWTStyleDatabaseTest {
 		cssdoc = factory.createCSSDocument(doc);
 		cssdoc.setTargetMedium("screen");
 		CSSElement cssStyle = cssdoc.getElementById("styleId");
-		sheet = (AbstractCSSStyleSheet) ((LinkStyle) cssStyle).getSheet();
+		sheet = ((LinkStyle<?>) cssStyle).getSheet();
 		styleText = cssStyle.getChildNodes().item(0);
 	}
 
