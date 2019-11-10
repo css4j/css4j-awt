@@ -42,7 +42,7 @@ public class AWTHelperTest {
 		CSSValue cssColor = style.getPropertyCSSValue("color");
 		assertNotNull(cssColor);
 		assertEquals(CssType.TYPED, cssColor.getCssValueType());
-		assertEquals(CSSValue.Type.RGBCOLOR, ((CSSTypedValue) cssColor).getPrimitiveType());
+		assertEquals(CSSValue.Type.COLOR, ((CSSTypedValue) cssColor).getPrimitiveType());
 		Color color = AWTHelper.getAWTColor((CSSTypedValue) cssColor);
 		assertNotNull(color);
 		assertEquals(8, color.getRed());
@@ -54,7 +54,7 @@ public class AWTHelperTest {
 		cssColor = style.getPropertyCSSValue("color");
 		assertNotNull(cssColor);
 		assertEquals(CssType.TYPED, cssColor.getCssValueType());
-		assertEquals(CSSValue.Type.RGBCOLOR, ((CSSTypedValue) cssColor).getPrimitiveType());
+		assertEquals(CSSValue.Type.COLOR, ((CSSTypedValue) cssColor).getPrimitiveType());
 		color = AWTHelper.getAWTColor((CSSTypedValue) cssColor);
 		assertNotNull(color);
 		assertEquals(255, color.getRed());

@@ -93,8 +93,8 @@ public class AWTHelper {
 		Color awtcolor = null;
 		if (cssColor != null) {
 			switch (cssColor.getPrimitiveType()) {
-			case RGBCOLOR:
-				RGBAColor color = cssColor.getRGBColorValue();
+			case COLOR:
+				RGBAColor color = cssColor.toRGBColorValue();
 				CSSPrimitiveValue red = color.getRed();
 				CSSPrimitiveValue green = color.getGreen();
 				CSSPrimitiveValue blue = color.getBlue();
