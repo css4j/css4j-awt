@@ -26,10 +26,10 @@ import io.sf.carte.doc.dom.TestDOMImplementation;
 import io.sf.carte.doc.style.css.CSSComputedProperties;
 import io.sf.carte.doc.style.css.CSSElement;
 import io.sf.carte.doc.style.css.CSSMediaException;
+import io.sf.carte.doc.style.css.CSSStyleDeclaration;
 import io.sf.carte.doc.style.css.CSSTypedValue;
 import io.sf.carte.doc.style.css.CSSValue;
 import io.sf.carte.doc.style.css.CSSValue.CssType;
-import io.sf.carte.doc.style.css.ExtendedCSSStyleDeclaration;
 import io.sf.carte.doc.style.css.om.BaseCSSStyleDeclaration;
 import io.sf.carte.doc.style.css.property.CSSPropertyValueException;
 
@@ -37,7 +37,7 @@ public class AWTHelperTest {
 
 	@Test
 	public void testGetAWTColor() throws CSSPropertyValueException {
-		ExtendedCSSStyleDeclaration style = new BaseCSSStyleDeclaration();
+		CSSStyleDeclaration style = new BaseCSSStyleDeclaration();
 		style.setCssText("color: rgba(8,63,255,0.5); ");
 		CSSValue cssColor = style.getPropertyCSSValue("color");
 		assertNotNull(cssColor);
