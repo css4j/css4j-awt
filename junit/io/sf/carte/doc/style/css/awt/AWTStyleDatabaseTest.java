@@ -33,7 +33,7 @@ import io.sf.carte.doc.agent.HeadlessDeviceFactory;
 import io.sf.carte.doc.style.css.CSSDocument;
 import io.sf.carte.doc.style.css.CSSElement;
 import io.sf.carte.doc.style.css.CSSMediaException;
-import io.sf.carte.doc.style.css.ExtendedCSSStyleSheet;
+import io.sf.carte.doc.style.css.CSSStyleSheet;
 import io.sf.carte.doc.style.css.LinkStyle;
 import io.sf.carte.doc.style.css.om.FontFaceRule;
 import io.sf.carte.doc.style.css.om.TestCSSStyleSheetFactory;
@@ -42,7 +42,7 @@ public class AWTStyleDatabaseTest {
 
 	private CSSDocument cssdoc;
 	private Node styleText;
-	private ExtendedCSSStyleSheet<?> sheet;
+	private CSSStyleSheet<?> sheet;
 	private AWTStyleDatabase styleDb;
 
 	@Before

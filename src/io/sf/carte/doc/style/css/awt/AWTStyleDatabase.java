@@ -22,8 +22,8 @@ import java.util.Map;
 
 import org.w3c.dom.DOMException;
 
+import io.sf.carte.doc.style.css.CSSFontFaceRule;
 import io.sf.carte.doc.style.css.CSSUnit;
-import io.sf.carte.doc.style.css.ExtendedCSSFontFaceRule;
 import io.sf.carte.doc.style.css.om.AbstractStyleDatabase;
 
 /**
@@ -109,7 +109,7 @@ public class AWTStyleDatabase extends AbstractStyleDatabase {
 	}
 
 	@Override
-	protected boolean loadFontFace(String familyName, FontFormat format, InputStream is, ExtendedCSSFontFaceRule rule)
+	protected boolean loadFontFace(String familyName, FontFormat format, InputStream is, CSSFontFaceRule rule)
 			throws IOException {
 		int fontFormat;
 		if (format == null || (fontFormat = fontFormatFromEnum(format)) == -1) {
