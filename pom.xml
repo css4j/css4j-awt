@@ -3,7 +3,6 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <!-- The Basics -->
   <parent>
 	<groupId>io.sf.carte</groupId>
 	<artifactId>css4j-dist</artifactId>
@@ -28,11 +27,10 @@
 		<type>test-jar</type>
 		<scope>test</scope>
 	</dependency>
-	<!-- https://mvnrepository.com/artifact/nu.validator.htmlparser/htmlparser -->
 	<dependency>
-		<groupId>nu.validator.htmlparser</groupId>
+		<groupId>nu.validator</groupId>
 		<artifactId>htmlparser</artifactId>
-		<version>1.4</version>
+		<version>1.4.16</version>
 		<scope>test</scope>
 		<optional>false</optional>
 	</dependency>
@@ -111,4 +109,7 @@
 		<url>https://maven.pkg.github.com/css4j/css4j-awt</url>
 	</repository>
   </distributionManagement>
+  <issueManagement>
+	<url>https://github.com/css4j/css4j-awt/issues</url>
+  </issueManagement>
 </project>
