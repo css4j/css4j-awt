@@ -35,6 +35,8 @@ import io.sf.carte.doc.style.css.om.AbstractStyleDatabase;
  */
 public class AWTStyleDatabase extends AbstractStyleDatabase {
 
+	private static final long serialVersionUID = 1L;
+
 	private GraphicsConfiguration gConfiguration = null;
 
 	/*
