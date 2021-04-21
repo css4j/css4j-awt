@@ -1,0 +1,27 @@
+plugins {
+	id 'css4j.java-conventions'
+	id 'de.jjohannes.extra-java-module-info'
+}
+
+dependencies {
+	api project(':css4j')
+	testImplementation project(':xml-dtd')
+	testImplementation project(path: ':css4j', configuration: 'tests')
+	testImplementation "nu.validator:htmlparser:${htmlparserVersion}"
+	testImplementation "org.slf4j:slf4j-api:${slf4jVersion}"
+}
+
+extraJavaModuleInfo {
+	failOnMissingModuleInfo.set(false)
+	automaticModule("htmlparser-${htmlparserVersion}.jar", 'htmlparser')
+}
+
+description = 'css4j-awt'
+
+publishing.publications.maven(MavenPublication).pom {
+	description = "CSS4J AWT module"
+}
+
+java {
+	withJavadocJar()
+}
