@@ -5,8 +5,8 @@ plugins {
 
 dependencies {
 	api project(':css4j')
-	testImplementation project(':xml-dtd')
 	testImplementation project(path: ':css4j', configuration: 'tests')
+	testImplementation "io.sf.carte:xml-dtd:${xmldtdVersion}"
 	testImplementation "nu.validator:htmlparser:${htmlparserVersion}"
 	testImplementation "org.slf4j:slf4j-api:${slf4jVersion}"
 }
