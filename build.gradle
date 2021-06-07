@@ -18,6 +18,8 @@ extraJavaModuleInfo {
 
 description = 'css4j-awt'
 
+compileJava.dependsOn tasks.jvmVersionAttribute
+
 publishing.publications.maven(MavenPublication).pom {
 	description = "CSS4J AWT module"
 }
