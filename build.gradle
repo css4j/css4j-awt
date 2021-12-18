@@ -12,20 +12,20 @@ description = 'css4j-awt'
 dependencies {
 	api('io.sf.carte:css4j') {
 		version {
-			strictly '[3.4.0,4.0['
-			prefer '3.6.0'
+			strictly '[3.4.0,)'
+			prefer '3.7.0'
 		}
 	}
 	testImplementation(group: 'io.sf.carte', name: 'css4j', classifier: 'tests') {
 		version {
-			strictly '[3.4.0,4.0['
-			prefer '3.6.0'
+			strictly '[3.4.0,)'
+			prefer '3.7.0'
 		}
 	}
 	testImplementation('io.sf.carte:xml-dtd') {
 		version {
 			strictly '[3.4.0,)'
-			prefer '3.5.1'
+			prefer '4.0.0'
 		}
 	}
 	testImplementation 'nu.validator:htmlparser:1.4.16'
@@ -35,7 +35,7 @@ dependencies {
 			prefer '1.7.32'
 		}
 	}
-	testImplementation 'junit:junit:4.13.1'
+	testImplementation 'junit:junit:4.13.2'
 }
 
 extraJavaModuleInfo {
