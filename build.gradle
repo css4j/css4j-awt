@@ -32,7 +32,7 @@ dependencies {
 	testImplementation('org.slf4j:slf4j-api') {
 		version {
 			strictly '[1.7.28,)'
-			prefer '1.7.32'
+			prefer '1.7.35'
 		}
 	}
 	testImplementation 'junit:junit:4.13.2'
@@ -152,11 +152,11 @@ tasks.withType(JavaCompile) {
 }
 
 tasks.withType(Javadoc) {
-	failOnError false
 	options.addStringOption('Xdoclint:none', '-quiet')
 	options.addStringOption('encoding', 'UTF-8')
 	options.addStringOption('charset', 'UTF-8')
 	options.links 'https://docs.oracle.com/en/java/javase/11/docs/api/'
+	options.links 'https://css4j.github.io/api/3/'
 }
 
 tasks.withType(AbstractArchiveTask).configureEach {
