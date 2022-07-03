@@ -9,6 +9,9 @@
 
  */
 
+/**
+ * AWT utilities for CSS4J.
+ */
 module io.sf.carte.css4j.awt {
 	exports io.sf.carte.doc.style.css.awt;
 
