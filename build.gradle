@@ -13,21 +13,11 @@ dependencies {
 	api('io.sf.carte:css4j') {
 		version {
 			strictly '[3.4.0,)'
-			prefer '3.7.0'
+			prefer '3.8.0'
 		}
 	}
-	testImplementation(group: 'io.sf.carte', name: 'css4j', classifier: 'tests') {
-		version {
-			strictly '[3.4.0,)'
-			prefer '3.7.0'
-		}
-	}
-	testImplementation('io.sf.carte:xml-dtd') {
-		version {
-			strictly '[3.4.0,)'
-			prefer '4.1.0'
-		}
-	}
+	testImplementation group: 'io.sf.carte', name: 'css4j', classifier: 'tests', version: '3.8.0'
+	testImplementation 'io.sf.carte:xml-dtd:4.1.0'
 	testImplementation 'nu.validator:htmlparser:1.4.16'
 	testImplementation('org.slf4j:slf4j-api') {
 		version {

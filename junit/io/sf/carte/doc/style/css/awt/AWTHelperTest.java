@@ -83,7 +83,7 @@ public class AWTHelperTest {
 		assertNotNull(font);
 		assertNotNull(font.getFamily(Locale.ROOT));
 		assertEquals("Helvetica", font.getName());
-		assertEquals(12, font.getSize());
+		assertEquals(15, font.getSize());
 		xhtmlDoc.setTargetMedium("screen");
 		styledecl = xhtmlDoc.getStyleSheet().getComputedStyle(elm, null);
 		assertNotNull(styledecl);
