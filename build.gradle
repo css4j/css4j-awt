@@ -1,7 +1,7 @@
 plugins {
 	id 'java-library'
 	id 'maven-publish'
-	id 'de.jjohannes.extra-java-module-info' version '0.11'
+	id 'org.gradlex.extra-java-module-info' version '1.0'
 }
 
 group = 'io.sf.carte'
@@ -26,7 +26,7 @@ dependencies {
 	testImplementation('org.slf4j:slf4j-api') {
 		version {
 			strictly '[1.7.28,)'
-			prefer '1.7.35'
+			prefer '2.0.0'
 		}
 	}
 	testImplementation 'junit:junit:4.13.2'
@@ -34,8 +34,8 @@ dependencies {
 
 extraJavaModuleInfo {
 	failOnMissingModuleInfo.set(false)
-	automaticModule('htmlparser-1.4.16.jar', 'htmlparser')
-	automaticModule('sac-1.3.jar', 'sac')
+	automaticModule('nu.validator:htmlparser', 'htmlparser')
+	automaticModule('org.w3c.css:sac', 'sac')
 }
 
 java {
