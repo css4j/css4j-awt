@@ -16,7 +16,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Font;
-import java.io.IOException;
 import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -75,7 +74,7 @@ public class AWTStyleDatabaseTest {
 	}
 
 	@Test
-	public void testFontFaceRule() throws IOException {
+	public void testFontFaceRule() {
 		styleText.setNodeValue(
 				"@font-face{font-family:'OpenSans Regular';src:url('http://www.example.com/fonts/OpenSans-Regular.ttf') format('truetype')}");
 		FontFaceRule ffrule = (FontFaceRule) sheet.getCssRules().item(0);
@@ -93,6 +92,18 @@ public class AWTStyleDatabaseTest {
 		assertNotNull(font);
 		assertEquals("Open Sans", font.getFamily(Locale.ROOT));
 		assertEquals("Open Sans Regular", font.getFontName(Locale.ROOT));
+	}
+
+	@Test
+	public void testGetDefaultGenericFontFamily() {
+		assertEquals("Serif", styleDb.getDefaultGenericFontFamily());
+		assertEquals("SansSerif", styleDb.getDefaultGenericFontFamily(null));
+		assertEquals("Serif", styleDb.getDefaultGenericFontFamily("serif"));
+		assertEquals("SansSerif", styleDb.getDefaultGenericFontFamily("sans-serif"));
+		assertEquals("SansSerif", styleDb.getDefaultGenericFontFamily("SANS-serif"));
+		assertEquals("SansSerif", styleDb.getDefaultGenericFontFamily("sansserif"));
+		assertEquals("SansSerif", styleDb.getDefaultGenericFontFamily("sans serif"));
+		assertEquals("Monospaced", styleDb.getDefaultGenericFontFamily("monospace"));
 	}
 
 }

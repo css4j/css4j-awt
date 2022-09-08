@@ -18,6 +18,7 @@ import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.w3c.dom.DOMException;
@@ -83,6 +84,12 @@ public class AWTStyleDatabase extends AbstractStyleDatabase {
 	 */
 	@Override
 	public String getDefaultGenericFontFamily(String genericFamily) {
+		if (genericFamily == null) {
+			return "SansSerif";
+		}
+
+		genericFamily = genericFamily.toLowerCase(Locale.ROOT);
+
 		String fontName = null;
 		if (genericFamily.equals("serif")) {
 			fontName = "Serif";
@@ -92,6 +99,7 @@ public class AWTStyleDatabase extends AbstractStyleDatabase {
 		} else if (genericFamily.equals("monospace")) {
 			fontName = "Monospaced";
 		}
+
 		return fontName;
 	}
 
