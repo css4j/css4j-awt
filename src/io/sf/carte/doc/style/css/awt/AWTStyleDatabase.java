@@ -86,7 +86,8 @@ public class AWTStyleDatabase extends AbstractStyleDatabase {
 		String fontName = null;
 		if (genericFamily.equals("serif")) {
 			fontName = "Serif";
-		} else if (genericFamily.equals("sans serif")) {
+		} else if (genericFamily.equals("sans-serif") || genericFamily.equals("sans serif")
+			|| genericFamily.equals("sansserif")) {
 			fontName = "SansSerif";
 		} else if (genericFamily.equals("monospace")) {
 			fontName = "Monospaced";
