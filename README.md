@@ -67,7 +67,7 @@ and optional library packages are the following:
 
 ### Test dependencies
 
-- A recent version of [JUnit 4](https://junit.org/junit4/).
+- A recent version of [JUnit 5](https://junit.org/junit5/).
 
 - The [xml-dtd](https://github.com/css4j/xml-dtd) library; version 4.1.1 or
   higher is recommended.

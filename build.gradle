@@ -20,7 +20,7 @@ dependencies {
 	testImplementation 'io.sf.carte:xml-dtd:4.1.1'
 	testImplementation 'nu.validator:htmlparser:1.4.16'
 	testImplementation 'org.slf4j:slf4j-api:2.0.6'
-	testImplementation 'junit:junit:4.13.2'
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
 }
 
 extraJavaModuleInfo {

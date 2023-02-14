@@ -11,9 +11,9 @@
 
 package io.sf.carte.doc.style.css.awt;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Font;
 import java.util.Locale;
@@ -21,8 +21,8 @@ import java.util.Locale;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -44,7 +44,7 @@ public class AWTStyleDatabaseTest {
 	private CSSStyleSheet<?> sheet;
 	private AWTStyleDatabase styleDb;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws DOMException, ParserConfigurationException, CSSMediaException {
 		TestCSSStyleSheetFactory factory = new TestCSSStyleSheetFactory();
 		HeadlessDeviceFactory deviceFactory = new HeadlessDeviceFactory();
