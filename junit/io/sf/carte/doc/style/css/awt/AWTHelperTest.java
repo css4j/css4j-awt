@@ -62,6 +62,42 @@ public class AWTHelperTest {
 		assertEquals(0, color.getBlue());
 		assertEquals(255, color.getAlpha());
 		//
+		style.setCssText("color: lch(32.67 12.93 244.59)");
+		cssColor = style.getPropertyCSSValue("color");
+		assertNotNull(cssColor);
+		assertEquals(CssType.TYPED, cssColor.getCssValueType());
+		assertEquals(CSSValue.Type.COLOR, ((CSSTypedValue) cssColor).getPrimitiveType());
+		color = AWTHelper.getAWTColor((CSSTypedValue) cssColor);
+		assertNotNull(color);
+		assertEquals(58, color.getRed());
+		assertEquals(80, color.getGreen());
+		assertEquals(95, color.getBlue());
+		assertEquals(255, color.getAlpha());
+		//
+		style.setCssText("color: color(display-p3 0.253 0.1087 0.7796/0.8)");
+		cssColor = style.getPropertyCSSValue("color");
+		assertNotNull(cssColor);
+		assertEquals(CssType.TYPED, cssColor.getCssValueType());
+		assertEquals(CSSValue.Type.COLOR, ((CSSTypedValue) cssColor).getPrimitiveType());
+		color = AWTHelper.getAWTColor((CSSTypedValue) cssColor);
+		assertNotNull(color);
+		assertEquals(70, color.getRed());
+		assertEquals(25, color.getGreen());
+		assertEquals(207, color.getBlue());
+		assertEquals(204, color.getAlpha());
+		//
+		style.setCssText("color: sandybrown");
+		cssColor = style.getPropertyCSSValue("color");
+		assertNotNull(cssColor);
+		assertEquals(CssType.TYPED, cssColor.getCssValueType());
+		assertEquals(CSSValue.Type.IDENT, ((CSSTypedValue) cssColor).getPrimitiveType());
+		color = AWTHelper.getAWTColor((CSSTypedValue) cssColor);
+		assertNotNull(color);
+		assertEquals(244, color.getRed());
+		assertEquals(164, color.getGreen());
+		assertEquals(96, color.getBlue());
+		assertEquals(255, color.getAlpha());
+		//
 		style.setCssText("color: transparent; ");
 		cssColor = style.getPropertyCSSValue("color");
 		assertNotNull(cssColor);

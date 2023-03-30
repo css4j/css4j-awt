@@ -17,14 +17,16 @@ import java.awt.font.TextAttribute;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.w3c.dom.DOMException;
+
 import io.sf.carte.doc.style.css.CSSComputedProperties;
 import io.sf.carte.doc.style.css.CSSPrimitiveValue;
 import io.sf.carte.doc.style.css.CSSTypedValue;
 import io.sf.carte.doc.style.css.CSSUnit;
 import io.sf.carte.doc.style.css.CSSValue.CssType;
+import io.sf.carte.doc.style.css.CSSValue.Type;
 import io.sf.carte.doc.style.css.RGBAColor;
 import io.sf.carte.doc.style.css.property.CSSPropertyValueException;
-import io.sf.carte.doc.style.css.property.ColorIdentifiers;
 
 /**
  * AWT helper methods.
@@ -86,61 +88,53 @@ public class AWTHelper {
 	 *                 number or an identifier.
 	 * @return the AWT color object, or null if the color was specified as an
 	 *         unknown identifier.
-	 * @throws CSSPropertyValueException if the color declaration is malformed or a
-	 *                                   color identifier is unknown.
+	 * @throws CSSPropertyValueException if a color cannot be derived from the CSS
+	 *                                   value.
 	 */
 	public static Color getAWTColor(CSSTypedValue cssColor) throws CSSPropertyValueException {
 		Color awtcolor = null;
 		if (cssColor != null) {
 			switch (cssColor.getPrimitiveType()) {
 			case COLOR:
-				RGBAColor color = cssColor.toRGBColor();
-				CSSPrimitiveValue red = color.getRed();
-				CSSPrimitiveValue green = color.getGreen();
-				CSSPrimitiveValue blue = color.getBlue();
-				CSSPrimitiveValue prialpha = color.getAlpha();
-				//
-				if (red.getCssValueType() != CssType.TYPED || green.getCssValueType() != CssType.TYPED
-						|| blue.getCssValueType() != CssType.TYPED || prialpha.getCssValueType() != CssType.TYPED) {
-					CSSPropertyValueException ex = new CSSPropertyValueException("Unknown color.");
+			case IDENT:
+				RGBAColor color;
+				try {
+					color = cssColor.toRGBColor();
+				} catch (RuntimeException e) {
+					CSSPropertyValueException ex = new CSSPropertyValueException(
+							"Cannot obtain a RGB color.", e);
 					ex.setValueText(cssColor.getCssText());
 					throw ex;
 				}
-				float alpha = ((CSSTypedValue) prialpha).getFloatValue(CSSUnit.CSS_NUMBER);
-				switch (red.getUnitType()) {
-				case CSSUnit.CSS_PERCENTAGE:
-					awtcolor = new Color(clipColorValue(((CSSTypedValue) red).getFloatValue(CSSUnit.CSS_PERCENTAGE) / 100f),
-							clipColorValue(((CSSTypedValue) green).getFloatValue(CSSUnit.CSS_PERCENTAGE) / 100f),
-							clipColorValue(((CSSTypedValue) blue).getFloatValue(CSSUnit.CSS_PERCENTAGE) / 100f), alpha);
-					break;
-				case CSSUnit.CSS_NUMBER:
-					try {
-						awtcolor = new Color(clipColorValue((int) ((CSSTypedValue) red).getFloatValue(CSSUnit.CSS_NUMBER)),
-								clipColorValue((int) ((CSSTypedValue) green).getFloatValue(CSSUnit.CSS_NUMBER)),
-								clipColorValue((int) ((CSSTypedValue) blue).getFloatValue(CSSUnit.CSS_NUMBER)),
-								Math.round(alpha * 255f));
-					} catch (IllegalArgumentException e) {
-						CSSPropertyValueException ex = new CSSPropertyValueException("Unknown color.", e);
-						ex.setValueText(cssColor.getCssText());
-						throw ex;
-					}
+
+				double[] rgb;
+				try {
+					rgb = color.toNumberArray();
+				} catch (RuntimeException e) {
+					CSSPropertyValueException ex = new CSSPropertyValueException(
+							"Cannot obtain the color components.", e);
+					ex.setValueText(cssColor.getCssText());
+					throw ex;
 				}
-				break;
-			case IDENT:
-				String sv = cssColor.getStringValue();
-				String s = ColorIdentifiers.getInstance().getColor(sv);
-				if (s != null) {
-					try {
-						awtcolor = Color.decode(s);
-					} catch (NumberFormatException e) {
-						CSSPropertyValueException ex = new CSSPropertyValueException("Unknown color", e);
-						ex.setValueText(sv);
-						throw ex;
-					}
-				} else if ("transparent".equals(sv)) {
-					return new Color(0, 0, 0, 0);
-				} else {
-					return Color.getColor(sv);
+
+				CSSPrimitiveValue prialpha = color.getAlpha();
+
+				if (prialpha.getCssValueType() != CssType.TYPED) {
+					CSSPropertyValueException ex = new CSSPropertyValueException(
+							"Unsupported alpha channel.");
+					ex.setValueText(cssColor.getCssText());
+					throw ex;
+				}
+
+				float alpha = normalizedAlphaComponent((CSSTypedValue) prialpha);
+
+				try {
+					awtcolor = new Color((float) rgb[0], (float) rgb[1], (float) rgb[2], alpha);
+				} catch (IllegalArgumentException e) {
+					CSSPropertyValueException ex = new CSSPropertyValueException("Unknown color.",
+							e);
+					ex.setValueText(cssColor.getCssText());
+					throw ex;
 				}
 				break;
 			case NUMERIC:
@@ -156,12 +150,26 @@ public class AWTHelper {
 		return awtcolor;
 	}
 
-	static int clipColorValue(int color) {
-		return Math.max(Math.min(255, color), 0);
-	}
-
-	static float clipColorValue(float color) {
-		return Math.max(Math.min(1f, color), 0f);
+	/**
+	 * Normalize the alpha component to a [0,1] interval.
+	 * 
+	 * @param typed the component.
+	 * @return the normalized component.
+	 */
+	private static float normalizedAlphaComponent(CSSTypedValue typed) {
+		float comp;
+		short unit = typed.getUnitType();
+		if (unit == CSSUnit.CSS_PERCENTAGE) {
+			comp = typed.getFloatValue(CSSUnit.CSS_PERCENTAGE) * 0.01f;
+		} else if (unit == CSSUnit.CSS_NUMBER) {
+			comp = typed.getFloatValue(CSSUnit.CSS_NUMBER);
+		} else if (typed.getPrimitiveType() == Type.IDENT) {
+			comp = 0f;
+		} else {
+			throw new DOMException(DOMException.TYPE_MISMATCH_ERR,
+					"Wrong component: " + typed.getCssText());
+		}
+		return Math.max(Math.min(1f, comp), 0f);
 	}
 
 }
