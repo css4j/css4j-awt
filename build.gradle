@@ -13,11 +13,11 @@ dependencies {
 	api('io.sf.carte:css4j') {
 		version {
 			strictly '[4.0,)'
-			prefer '4.0'
+			prefer '4.0.1'
 		}
 	}
-	testImplementation group: 'io.sf.carte', name: 'css4j', classifier: 'tests', version: '4.0'
-	testImplementation 'io.sf.carte:xml-dtd:4.1.1'
+	testImplementation group: 'io.sf.carte', name: 'css4j', classifier: 'tests', version: '4.0.1'
+	testImplementation 'io.sf.carte:xml-dtd:4.2'
 	testImplementation 'nu.validator:htmlparser:1.4.16'
 	testImplementation 'org.slf4j:slf4j-api:2.0.7'
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
