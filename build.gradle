@@ -82,7 +82,6 @@ test {
 tasks.compileJava {
 	excludes += ['module-info.java']
 	modularity.inferModulePath = false
-	options.release = 8
 }
 
 tasks.register('compileModuleInfo', JavaCompile) {
