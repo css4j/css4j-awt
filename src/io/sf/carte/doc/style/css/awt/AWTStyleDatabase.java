@@ -106,8 +106,8 @@ public class AWTStyleDatabase extends AbstractStyleDatabase {
 	@Override
 	protected boolean isFontFamilyAvailable(String fontFamily) {
 		String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-		for (int i = 0; i < fontNames.length; i++) {
-			if (fontNames[i].equalsIgnoreCase(fontFamily)) {
+		for (String fontName : fontNames) {
+			if (fontName.equalsIgnoreCase(fontFamily)) {
 				return true;
 			}
 		}
