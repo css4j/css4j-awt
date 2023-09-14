@@ -46,7 +46,7 @@ public class AWTStyleDatabase extends AbstractStyleDatabase {
 	private float defaultWidth = 595f;
 	private float defaultHeight = 842f;
 
-	private final Map<String,Font> fontfaceNames = new HashMap<String,Font>();
+	private final Map<String,Font> fontfaceNames = new HashMap<>();
 
 	/**
 	 * Constructs a default style database with no graphics configuration.

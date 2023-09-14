@@ -66,7 +66,7 @@ public class AWTHelper {
 				}
 			}
 		}
-		Map<TextAttribute, Object> textAttrs = new HashMap<TextAttribute, Object>();
+		Map<TextAttribute, Object> textAttrs = new HashMap<>();
 		String decoration = computedStyle.getPropertyValue("text-decoration");
 		if (decoration.length() > 0) {
 			decoration = decoration.toLowerCase();
