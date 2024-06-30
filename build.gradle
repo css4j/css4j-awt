@@ -17,7 +17,7 @@ dependencies {
 		}
 	}
 	testImplementation group: 'io.sf.carte', name: 'css4j', classifier: 'tests', version: '4.2.2'
-	testImplementation 'io.sf.carte:xml-dtd:4.2.1'
+	testImplementation 'io.sf.carte:xml-dtd:4.3'
 	testImplementation 'nu.validator:htmlparser:1.4.16'
 	testImplementation 'org.slf4j:slf4j-api:2.0.9'
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.10.3'
