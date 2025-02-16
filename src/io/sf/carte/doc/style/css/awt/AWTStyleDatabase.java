@@ -212,16 +212,15 @@ public class AWTStyleDatabase extends AbstractStyleDatabase {
 
 	@Override
 	public float getWidthSize(String widthIdentifier, float fontSize) throws DOMException {
-		// Normalize to device resolution
-		float factor = Math.max(0.62f, deviceResolutionFactor());
 		if ("thin".equalsIgnoreCase(widthIdentifier)) {
-			return 1f * factor;
+			return 0.75f; // 1px
 		} else if ("thick".equalsIgnoreCase(widthIdentifier)) {
-			return 4f * factor;
+			return 3.75f; // 5px
 		} else if ("medium".equalsIgnoreCase(widthIdentifier)) {
-			return 2f * factor;
+			return 2.25f; // 3px
 		} else {
-			throw new DOMException(DOMException.SYNTAX_ERR, "Unknown identifier " + widthIdentifier);
+			throw new DOMException(DOMException.SYNTAX_ERR,
+				"Unknown identifier " + widthIdentifier);
 		}
 	}
 
