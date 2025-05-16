@@ -66,14 +66,14 @@ and optional library packages are the following:
 ### Compile-time dependencies
 
 - The [css4j](https://github.com/css4j/css4j/releases) library (and its transitive
-  dependencies); version 5.0 or higher is recommended (compatibility with 6.0 or
+  dependencies); version 6.0 or higher is recommended (compatibility with 7.0 or
   higher is likely but not guaranteed).
 
 ### Test dependencies
 
 - A recent version of [JUnit 5](https://junit.org/junit5/).
 
-- The [xml-dtd](https://github.com/css4j/xml-dtd) library; version 4.1.1 or
+- The [xml-dtd](https://github.com/css4j/xml-dtd) library; version 4.2.1 or
   higher is recommended.
 
 - The [validator.nu html5 parser](https://about.validator.nu/htmlparser/).
